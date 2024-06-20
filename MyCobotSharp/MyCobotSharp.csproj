@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PackageIcon>RobotArm.png</PackageIcon>
+        <Version>0.1.0</Version>
+        <Title>MyCobot Sharp</Title>
+        <Authors>Pygmalions</Authors>
+        <Description>A C# client for MyCobot™ robot arm.</Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.IO.Pipelines" Version="8.0.0" />
+      <PackageReference Include="System.IO.Ports" Version="8.0.0" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <None Update="RobotArm.png" Pack="True" PackagePath="." />
+    </ItemGroup>
+
+</Project>
