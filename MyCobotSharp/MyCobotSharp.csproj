@@ -6,19 +6,23 @@
         <Nullable>enable</Nullable>
         <PackageIcon>RobotArm.png</PackageIcon>
         <Version>0.1.0</Version>
-        <Title>MyCobot Sharp</Title>
+        <Title>MyCobotSharp</Title>
         <Authors>Pygmalions</Authors>
-        <Description>A C# client for MyCobot™ robot arm.</Description>
+        <Description>An unofficial C# client for MyCobot™, based on a message processing structure with error tolerant.</Description>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/Pygmalions/MyCobotSharp</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Pygmalions/MyCobotSharp</RepositoryUrl>
+        <RepositoryType>Git</RepositoryType>
+        <PackageTags>Robotics; MyCobot;</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="System.IO.Pipelines" Version="8.0.0" />
-      <PackageReference Include="System.IO.Ports" Version="8.0.0" />
+        <PackageReference Include="System.IO.Pipelines" Version="8.0.0"/>
+        <PackageReference Include="System.IO.Ports" Version="8.0.0"/>
     </ItemGroup>
-    
+
     <ItemGroup>
-        <None Update="RobotArm.png" Pack="True" PackagePath="." />
+        <None Update="RobotArm.png" Pack="True" PackagePath="."/>
     </ItemGroup>
 
 </Project>
