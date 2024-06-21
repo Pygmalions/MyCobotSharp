@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageIcon>RobotArm.png</PackageIcon>
-        <Version>0.1.0</Version>
+        <Version>0.1.1</Version>
         <Title>MyCobotSharp</Title>
         <Authors>Pygmalions</Authors>
         <Description>An unofficial C# client for MyCobot™, based on a message processing structure with error tolerant.</Description>
@@ -14,6 +14,7 @@
         <RepositoryUrl>https://github.com/Pygmalions/MyCobotSharp</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
         <PackageTags>Robotics; MyCobot;</PackageTags>
+        <PackageReleaseNotes>In following versions, MyCobot will force to perform the initalization process.</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,6 +24,7 @@
 
     <ItemGroup>
         <None Update="RobotArm.png" Pack="True" PackagePath="."/>
+        <None Update="README.md" Pack="True" PackagePath="." />
     </ItemGroup>
 
 </Project>

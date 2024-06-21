@@ -4,7 +4,7 @@ namespace MyCobotSharp;
 
 public static class MyCobotSerialPortConnector
 {
-    public static MyCobot Connect(string port, int baud = 115200)
+    public static Task<MyCobot> Connect(string port, int baud = 115200)
     {
         var connection = new SerialPort(port, baud)
         {
@@ -12,6 +12,6 @@ public static class MyCobotSerialPortConnector
             DtrEnable = true
         };
         connection.Open();
-        return new MyCobot(connection.BaseStream, connection.BaseStream);
+        return MyCobot.Connect(connection.BaseStream, connection.BaseStream);
     }
 }

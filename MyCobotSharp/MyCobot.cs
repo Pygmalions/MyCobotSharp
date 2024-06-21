@@ -10,10 +10,23 @@ public class MyCobot : IAsyncDisposable
 
     private readonly PipeWriter _writer;
 
-    public MyCobot(Stream inputStream, Stream outputStream)
+    private MyCobot(Stream inputStream, Stream outputStream)
     {
         _reader = PipeReader.Create(inputStream);
         _writer = PipeWriter.Create(outputStream);
+    }
+
+    /// <summary>
+    /// Build a MyCobot client based on specific streams.
+    /// </summary>
+    /// <param name="inputStream">Stream for input data.</param>
+    /// <param name="outputStream">Stream for output data.</param>
+    /// <returns></returns>
+    public static async Task<MyCobot> Connect(Stream inputStream, Stream outputStream)
+    {
+        var cobot = new MyCobot(inputStream, outputStream);
+        await cobot.Initialize();
+        return cobot;
     }
 
     private readonly CancellationTokenSource _parserCancellation = new();
