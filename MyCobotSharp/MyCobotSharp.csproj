@@ -5,6 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageIcon>RobotArm.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <Version>0.1.1</Version>
         <Title>MyCobotSharp</Title>
         <Authors>Pygmalions</Authors>
