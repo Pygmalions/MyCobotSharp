@@ -12,7 +12,7 @@ Use `MyCobotSocketConnector` or `MyCobotSerialPortConnector`:
 ```csharp
 
 // Connect to MyCobot through TCP. Also, you can use MyCobotSerialPortConnector.
-var mycobot = await MyCobotSocketConnector.Connect("YOUR_COBOT_IP");
+var mycobot = MyCobotSocketConnector.Connect("YOUR_COBOT_IP");
 
 // Use PullAngles() to read the angles into mycobot.Angles array.
 await mycobot.PullAngles();

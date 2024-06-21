@@ -15,7 +15,6 @@
         <RepositoryUrl>https://github.com/Pygmalions/MyCobotSharp</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
         <PackageTags>Robotics; MyCobot;</PackageTags>
-        <PackageReleaseNotes>In following versions, MyCobot will force to perform the initalization process.</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>

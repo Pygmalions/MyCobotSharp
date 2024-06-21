@@ -10,33 +10,23 @@ public class MyCobot : IAsyncDisposable
 
     private readonly PipeWriter _writer;
 
-    private MyCobot(Stream inputStream, Stream outputStream)
+    public MyCobot(Stream inputStream, Stream outputStream)
     {
         _reader = PipeReader.Create(inputStream);
         _writer = PipeWriter.Create(outputStream);
-    }
-
-    /// <summary>
-    /// Build a MyCobot client based on specific streams.
-    /// </summary>
-    /// <param name="inputStream">Stream for input data.</param>
-    /// <param name="outputStream">Stream for output data.</param>
-    /// <returns></returns>
-    public static async Task<MyCobot> Connect(Stream inputStream, Stream outputStream)
-    {
-        var cobot = new MyCobot(inputStream, outputStream);
-        await cobot.Initialize();
-        return cobot;
+        _parserTask = Task.Factory.StartNew(ParseFrames, _parserCancellation.Token, TaskCreationOptions.LongRunning);
     }
 
     private readonly CancellationTokenSource _parserCancellation = new();
 
-    private Task? _parserTask;
-    
-    public async Task Initialize()
+    private readonly Task _parserTask;
+
+    /// <summary>
+    /// In several connection methods such as serial port, you may need to wait for the controller board to boot up.
+    /// </summary>
+    /// <exception cref="Exception"></exception>
+    public async Task WaitForReady()
     {
-        _parserTask = Task.Factory.StartNew(ParseFrames, _parserCancellation.Token, TaskCreationOptions.LongRunning);
-        
         var cancellation = new CancellationTokenSource();
         var sendingStatusQuery = Task.Run(async () =>
         {
@@ -52,11 +42,11 @@ public class MyCobot : IAsyncDisposable
         if (!powered)
             throw new Exception("Atom is not powered on.");
     }
-    
+
     public async ValueTask DisposeAsync()
     {
         await _parserCancellation.CancelAsync();
-        _parserTask?.Dispose();
+        _parserTask.Dispose();
         await _reader.CompleteAsync();
         await _writer.CompleteAsync();
     }
@@ -69,6 +59,7 @@ public class MyCobot : IAsyncDisposable
             if (reader.IsNext((byte)MyCobotCommand.Header, true))
                 return reader.Position;
         }
+
         return null;
     }
 
@@ -84,7 +75,7 @@ public class MyCobot : IAsyncDisposable
                 _reader.AdvanceTo(result.Buffer.End);
                 continue;
             }
-            
+
             _reader.AdvanceTo(dataPosition.Value);
 
             byte commandId = 0;
@@ -122,7 +113,7 @@ public class MyCobot : IAsyncDisposable
 
     private Task<Memory<byte>> WaitResponse(MyCobotCommand command)
     {
-        if (_handlers.TryGetValue((byte)command, out var notifier)) 
+        if (_handlers.TryGetValue((byte)command, out var notifier))
             return notifier.Task;
         notifier = new TaskCompletionSource<Memory<byte>>();
         _handlers[(byte)command] = notifier;
@@ -138,12 +129,12 @@ public class MyCobot : IAsyncDisposable
         // Data length includes this length field and the command field.
         memory.Span[2] = (byte)(data.Length + 2);
         memory.Span[3] = (byte)command;
-        
+
         if (!data.IsEmpty)
             data.Span.CopyTo(memory.Span[4..]);
-        
+
         memory.Span[4 + data.Length] = (byte)MyCobotCommand.Footer;
-        
+
         _writer.Advance(5 + data.Length);
         await _writer.FlushAsync();
     }
